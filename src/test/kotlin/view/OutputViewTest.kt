@@ -1,6 +1,7 @@
 package view
 
 import dto.RefereeResponse
+import enum.RefereeDiscriminate
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -22,12 +23,12 @@ class OutputViewTest {
     private val standardOut: PrintStream = System.out
 
     @BeforeEach
-    fun setupStream(){
+    fun setupStream() {
         System.setOut(PrintStream(byteArrayOutputStream))
     }
 
     @AfterEach
-    fun initStream(){
+    fun initStream() {
         System.setOut(standardOut)
         byteArrayOutputStream.reset()
     }
@@ -47,16 +48,16 @@ class OutputViewTest {
 
     @ParameterizedTest
     @MethodSource("provideStrikeCountAndBallCount")
-    fun `사용자는 strike, ball의 여부를 console을 통해 확인할 수 있다`(strikeCount : Int, ballCount : Int){
+    fun `사용자는 strike, ball의 여부를 console을 통해 확인할 수 있다`(strikeCount: Int, ballCount: Int) {
         printStrikeCountAndBallCountTest(
             strikeCount = strikeCount,
             ballCount = ballCount,
-            expectedPrint = "${ballCount}볼${strikeCount}스트라이크"
+            expectedPrint = "${ballCount}${RefereeDiscriminate.BALL.discriminate}${strikeCount}${RefereeDiscriminate.STRIKE.discriminate}"
         )
     }
 
     @Test
-    fun `3스트라이크 0볼인 경우에는 3스트라이크만 출력한다`(){
+    fun `3스트라이크 0볼인 경우에는 3스트라이크만 출력한다`() {
         //given
         val strikeCount = 3
         val ballCount = 0
@@ -65,12 +66,12 @@ class OutputViewTest {
         printStrikeCountAndBallCountTest(
             strikeCount = strikeCount,
             ballCount = ballCount,
-            expectedPrint = "3스트라이크"
+            expectedPrint = "3${RefereeDiscriminate.STRIKE.discriminate}"
         )
     }
 
     @Test
-    fun `0스트라이크 3볼인 경우에는 3볼만 출력한다`(){
+    fun `0스트라이크 3볼인 경우에는 3볼만 출력한다`() {
         //given
         val strikeCount = 0
         val ballCount = 3
@@ -79,12 +80,12 @@ class OutputViewTest {
         printStrikeCountAndBallCountTest(
             strikeCount = strikeCount,
             ballCount = ballCount,
-            expectedPrint = "3볼"
+            expectedPrint = "3${RefereeDiscriminate.BALL.discriminate}"
         )
     }
 
     @Test
-    fun `0스트라이크 0볼인 경우에는 낫싱을 출력한다`(){
+    fun `0스트라이크 0볼인 경우에는 낫싱을 출력한다`() {
         //given
         val strikeCount = 0
         val ballCount = 0
@@ -93,11 +94,11 @@ class OutputViewTest {
         printStrikeCountAndBallCountTest(
             strikeCount = strikeCount,
             ballCount = ballCount,
-            expectedPrint = "낫싱"
+            expectedPrint = RefereeDiscriminate.NOTHING.discriminate
         )
     }
 
-    private fun printStrikeCountAndBallCountTest(strikeCount : Int, ballCount : Int, expectedPrint : String){
+    private fun printStrikeCountAndBallCountTest(strikeCount: Int, ballCount: Int, expectedPrint: String) {
         //given
         val refereeResponse = RefereeResponse(
             strikeCount = strikeCount,
@@ -115,13 +116,13 @@ class OutputViewTest {
         Assertions.assertEquals(byteArrayOutputStream.toString().trim(), expectedPrint)
     }
 
-    companion object{
+    companion object {
         @JvmStatic
-        fun provideStrikeCountAndBallCount() : Stream<Arguments> {
+        fun provideStrikeCountAndBallCount(): Stream<Arguments> {
             return Stream.of(
-                Arguments.of(1,1),
-                Arguments.of(2,1),
-                Arguments.of(1,2),
+                Arguments.of(1, 1),
+                Arguments.of(2, 1),
+                Arguments.of(1, 2),
             )
         }
     }
