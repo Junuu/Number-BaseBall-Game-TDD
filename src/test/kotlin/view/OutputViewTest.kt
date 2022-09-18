@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import view.output.OutputView
 import view.output.OutputViewImpl
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
