@@ -1,9 +1,13 @@
-package view
+package view.output
 
 import dto.RefereeResponse
 
-class OutputView {
-    fun printStrikeAndBallCount(refereeResponse: RefereeResponse) {
+interface OutputView {
+    fun printStrikeAndBallCount(refereeResponse: RefereeResponse)
+}
+
+class OutputViewImpl : OutputView {
+    override fun printStrikeAndBallCount(refereeResponse: RefereeResponse) {
         if (refereeResponse.strikeCount == MAXIMUM_COUNT) {
             println(threeStrikeMessage)
             return

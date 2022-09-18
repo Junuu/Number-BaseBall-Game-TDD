@@ -1,7 +1,11 @@
-package view
+package view.input
 
-class InputView {
-    fun showInputGuideMessage(){
+interface InputView{
+    fun showInputGuideMessage()
+}
+
+class InputViewImpl : InputView {
+    override fun showInputGuideMessage(){
         print(InputGuideMessage)
     }
 

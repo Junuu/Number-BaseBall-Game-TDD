@@ -2,20 +2,19 @@ package game
 
 import domain.Referee
 import domain.User
-import input.InputNumber
-import random.GenerateRandomNumber
-import view.InputView
-import view.OutputView
+import input.InputUtil
+import random.RandomUtil
+import view.input.InputView
+import view.output.OutputView
 
-class BaseBallGame {
-
-    private val generateRandomNumber = GenerateRandomNumber()
-    private val inputNumber = InputNumber()
-    private val inputView = InputView()
-    private val outputView = OutputView()
-
+class BaseBallGame(
+    private val randomUtil: RandomUtil,
+    private val inputUtil: InputUtil,
+    private val inputView: InputView,
+    private val outputView: OutputView,
+) {
     fun run() {
-        val user = User(inputNumber)
+        val user = User(inputUtil)
         val answerNumber = makeRandomAnswerNumber()
         val referee = Referee(answerNumber)
 
@@ -41,7 +40,7 @@ class BaseBallGame {
     }
 
     private fun generateRandomNumberAndToString(): String {
-        return generateRandomNumber.getRandomNumberAndValidation().toString()
+        return randomUtil.getRandomNumberAndValidation().toString()
     }
 
 
