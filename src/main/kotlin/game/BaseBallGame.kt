@@ -45,7 +45,7 @@ class BaseBallGame {
     }
 
 
-    fun isAllStrike(answerNumber: String, userInputNumber: String): Boolean {
+    private fun isAllStrike(answerNumber: String, userInputNumber: String): Boolean {
         return answerNumber == userInputNumber
     }
 }
